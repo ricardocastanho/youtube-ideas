@@ -5,27 +5,64 @@ import { mdiSendOutline } from "@mdi/js";
 import ResizableTextarea from "./components/ResizableTextarea";
 import { useState } from "react";
 
-enum MessageRole {
-  user,
-  assistant,
-  system,
-}
+const MessageRole = {
+  user: "user",
+  assistant: "assistant",
+  system: "system",
+};
 
 type Message = {
-  role: MessageRole;
+  role: string;
   content: string;
 };
 
 function App() {
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const messages: Message[] = [
-    { role: MessageRole.user, content: "Isso é uma mensagem" },
-    {
-      role: MessageRole.assistant,
-      content: "# Bem-vindo ao MarkdownViewer",
-    },
-  ];
+  const handleSendMessageAndVideo = async () => {
+    if (!input.trim()) return;
+
+    const newMessages = [
+      ...messages,
+      { role: MessageRole.user, content: input },
+    ];
+    setMessages(newMessages);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_API_URL + "/completion",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            video_url: "https://www.youtube.com/watch?v=IUeYNdSaZeA",
+            messages: newMessages,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro na requisição.");
+      }
+
+      const data = await response.json();
+
+      setMessages([
+        ...newMessages,
+        { role: MessageRole.assistant, content: data.data.completion },
+      ]);
+    } catch (error) {
+      console.error("Erro ao enviar a mensagem:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-background text-primary h-screen overflow-auto">
@@ -51,8 +88,10 @@ function App() {
 
       <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex items-center w-[700px] px-4">
         <ResizableTextarea value={input} onChange={setInput} />
-
-        <button className="h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2">
+        <button
+          className="h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2"
+          onClick={handleSendMessageAndVideo}
+          disabled={loading}>
           <Icon path={mdiSendOutline} size={1} />
         </button>
       </div>
