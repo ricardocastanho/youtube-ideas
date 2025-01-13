@@ -104,7 +104,7 @@ function App() {
 
           return (
             <div
-              className="w-full flex items-end text-start pb-12 lg:1/2 max-w-2xl"
+              className="w-full flex justify-end text-start pb-12 lg:1/2 max-w-2xl"
               key={i}>
               <UserMessage content={message.content} />
             </div>
