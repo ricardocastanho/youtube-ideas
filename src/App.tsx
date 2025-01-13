@@ -27,7 +27,7 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSendMessageAndVideo = async () => {
+  const handleSendMessage = async () => {
     if (!input.trim()) return;
 
     const newMessages = [
@@ -103,7 +103,7 @@ function App() {
           <ResizableTextarea value={input} onChange={setInput} />
           <button
             className="h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2"
-            onClick={handleSendMessageAndVideo}
+            onClick={handleSendMessage}
             disabled={loading}>
             <Icon path={mdiSendOutline} size={1} />
           </button>
