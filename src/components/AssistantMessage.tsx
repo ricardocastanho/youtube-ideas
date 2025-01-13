@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -13,6 +13,7 @@ const AssistantMessage: React.FC<AssistantMessageProps> = ({
 }) => {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (currentIndex < content.length) {
@@ -25,9 +26,16 @@ const AssistantMessage: React.FC<AssistantMessageProps> = ({
     }
   }, [currentIndex, typingSpeed, content]);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentText, currentIndex]);
+
   return (
     <div className="prose prose-invert max-w-none">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentText}</ReactMarkdown>
+      <div ref={messagesEndRef} />
     </div>
   );
 };

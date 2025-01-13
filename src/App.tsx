@@ -66,7 +66,7 @@ function App() {
 
   return (
     <div className="bg-background text-primary h-screen overflow-auto">
-      <div className="fixed top-0 max-h-[90%] w-full flex flex-col items-center p-4 pb-[500px] overflow-auto">
+      <div className="fixed top-0 max-h-[90%] w-full flex flex-col items-center p-4 pb-[50px] overflow-auto">
         {messages.map((message, i) => {
           if (message.role === MessageRole.assistant) {
             return (
