@@ -24,7 +24,14 @@ type Body = {
 
 function App() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content:
+        "Olá! Bem-vindo ao chat! 😊\n\n" +
+        "Você pode me enviar links de vídeos do YouTube para análise, ou se preferir, me fazer uma pergunta sobre qualquer assunto. Estou aqui para ajudar!",
+    },
+  ]);
   const [loading, setLoading] = useState(false);
   const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
