@@ -5,13 +5,24 @@ import { mdiSendOutline } from "@mdi/js";
 import ResizableTextarea from "./components/ResizableTextarea";
 import { useState } from "react";
 
+enum MessageRole {
+  user,
+  assistant,
+  system,
+}
+
+type Message = {
+  role: MessageRole;
+  content: string;
+};
+
 function App() {
   const [input, setInput] = useState("");
 
-  const messages = [
-    { role: "user", content: "Isso é uma mensagem" },
+  const messages: Message[] = [
+    { role: MessageRole.user, content: "Isso é uma mensagem" },
     {
-      role: "assistant",
+      role: MessageRole.assistant,
       content: "# Bem-vindo ao MarkdownViewer",
     },
   ];
@@ -20,7 +31,7 @@ function App() {
     <div className="bg-background text-primary h-screen overflow-auto">
       <div className="fixed top-0 max-h-[90%] w-full flex flex-col items-center p-4 pb-[500px] overflow-auto">
         {messages.map((message, i) => {
-          if (message.role === "assistant") {
+          if (message.role === MessageRole.assistant) {
             return (
               <div className="w-[700px] items-start text-start pb-12" key={i}>
                 <AssistantMessage content={message.content} />
