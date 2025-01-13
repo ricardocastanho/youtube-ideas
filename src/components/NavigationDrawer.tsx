@@ -1,5 +1,6 @@
 import Icon from "@mdi/react";
 import { mdiMenu } from "@mdi/js";
+import { version } from "../../package.json";
 
 type NavigationDrawerProps = {
   isMenuOpen: boolean;
@@ -26,6 +27,22 @@ function NavigationDrawer({
             Novo Chat
           </button>
         </div>
+      </div>
+
+      <div
+        className={`fixed bottom-12 left-6 flex flex-col items-start transition-opacity ${
+          isMenuOpen ? "opacity-100" : "opacity-0"
+        } ${isMenuOpen ? "transform-none" : "-translate-x-full"}`}
+        style={{ width: "250px" }}>
+        <p className="text-lg font-semibold text-center text-gray-300">
+          Youtube Ideas
+        </p>
+        <p className="text-md font-medium text-center text-gray-300">
+          Ricardo Castanho
+        </p>
+        <p className="text-sm text-center text-gray-300 pt-1">
+          Version {version}
+        </p>
       </div>
 
       <button

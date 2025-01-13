@@ -164,7 +164,7 @@ function App() {
           })}
         </div>
 
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-full lg:w-4/5 max-w-3xl px-8">
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-full lg:w-4/5 max-w-3xl px-8">
           <div className="flex items-center">
             <ResizableTextarea value={input} onChange={setInput} />
             <button
@@ -180,10 +180,6 @@ function App() {
               )}
             </button>
           </div>
-
-          <p className="text-center text-gray-300 pt-2">
-            Youtube Ideas - Ricardo Castanho
-          </p>
         </div>
       </div>
     </div>
