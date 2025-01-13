@@ -4,6 +4,7 @@ import Icon from "@mdi/react";
 import { mdiSendOutline } from "@mdi/js";
 import ResizableTextarea from "./components/ResizableTextarea";
 import { useState } from "react";
+import { extractYouTubeURL } from "./utils/utils";
 
 const MessageRole = {
   user: "user",
@@ -14,6 +15,11 @@ const MessageRole = {
 type Message = {
   role: string;
   content: string;
+};
+
+type Body = {
+  messages: Message[];
+  video_url?: string;
 };
 
 function App() {
@@ -32,6 +38,15 @@ function App() {
     setInput("");
     setLoading(true);
 
+    const body: Body = {
+      messages: newMessages,
+    };
+
+    const videoUrl = extractYouTubeURL(input);
+    if (videoUrl) {
+      body.video_url = videoUrl;
+    }
+
     try {
       const response = await fetch(
         import.meta.env.VITE_API_URL + "/completion",
@@ -40,10 +55,7 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            video_url: "https://www.youtube.com/watch?v=IUeYNdSaZeA",
-            messages: newMessages,
-          }),
+          body: JSON.stringify(body),
         }
       );
 
