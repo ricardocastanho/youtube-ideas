@@ -1,7 +1,7 @@
 import AssistantMessage from "./components/AssistantMessage";
 import UserMessage from "./components/UserMessage";
 import Icon from "@mdi/react";
-import { mdiContentCopy, mdiSendOutline } from "@mdi/js";
+import { mdiContentCopy, mdiLoading, mdiSendOutline } from "@mdi/js";
 import ResizableTextarea from "./components/ResizableTextarea";
 import { useState } from "react";
 import { extractYouTubeURL } from "./utils/utils";
@@ -116,10 +116,16 @@ function App() {
         <div className="flex items-center">
           <ResizableTextarea value={input} onChange={setInput} />
           <button
-            className="h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2"
+            className={`h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2 ${
+              loading ? "cursor-not-allowed" : ""
+            }`}
             onClick={handleSendMessage}
             disabled={loading}>
-            <Icon path={mdiSendOutline} size={1} />
+            {loading ? (
+              <Icon path={mdiLoading} size={1} className="animate-spin" />
+            ) : (
+              <Icon path={mdiSendOutline} size={1} />
+            )}
           </button>
         </div>
 
