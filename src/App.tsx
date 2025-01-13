@@ -3,7 +3,7 @@ import UserMessage from "./components/UserMessage";
 import Icon from "@mdi/react";
 import { mdiContentCopy, mdiLoading, mdiSendOutline } from "@mdi/js";
 import ResizableTextarea from "./components/ResizableTextarea";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { extractYouTubeURL } from "./utils/utils";
 
 const MessageRole = {
@@ -26,6 +26,18 @@ function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleUserScroll = () => {
+    const scrollTop = containerRef.current?.scrollTop || 0;
+    const scrollHeight = containerRef.current?.scrollHeight || 0;
+    const clientHeight = containerRef.current?.clientHeight || 0;
+
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+
+    setIsAutoScrollEnabled(isAtBottom);
+  };
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -77,15 +89,21 @@ function App() {
   };
 
   return (
-    <div className="bg-background text-primary h-screen overflow-auto">
-      <div className="fixed top-0 max-h-[90%] w-full flex flex-col items-center p-8 pb-[50px] overflow-auto">
+    <div className="bg-background text-primary h-screen">
+      <div
+        className="fixed top-0 max-h-[90%] w-full flex flex-col items-center p-8 pb-[50px] overflow-auto"
+        onScroll={handleUserScroll}
+        ref={containerRef}>
         {messages.map((message, i) => {
           if (message.role === MessageRole.assistant) {
             return (
               <div
                 className="flex flex-col items-start text-start pb-12 w-full lg:1/2 max-w-2xl"
                 key={i}>
-                <AssistantMessage content={message.content} />
+                <AssistantMessage
+                  content={message.content}
+                  isAutoScrollEnabled={isAutoScrollEnabled}
+                />
                 <div className="relative group">
                   <button
                     onClick={() =>

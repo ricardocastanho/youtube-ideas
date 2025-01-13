@@ -4,11 +4,13 @@ import remarkGfm from "remark-gfm";
 
 interface AssistantMessageProps {
   content: string;
+  isAutoScrollEnabled?: boolean;
   typingSpeed?: number; // Velocidade em ms entre cada caractere
 }
 
 const AssistantMessage: React.FC<AssistantMessageProps> = ({
   content,
+  isAutoScrollEnabled = true,
   typingSpeed = 5,
 }) => {
   const [currentText, setCurrentText] = useState("");
@@ -27,13 +29,13 @@ const AssistantMessage: React.FC<AssistantMessageProps> = ({
   }, [currentIndex, typingSpeed, content]);
 
   useEffect(() => {
-    if (messagesEndRef.current) {
+    if (isAutoScrollEnabled && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [currentText, currentIndex]);
+  }, [currentText, currentIndex, isAutoScrollEnabled]);
 
   return (
-    <div className="prose prose-invert">
+    <div className="prose prose-invert overflow-auto h-full">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentText}</ReactMarkdown>
       <div ref={messagesEndRef} />
     </div>
