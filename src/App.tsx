@@ -1,7 +1,13 @@
 import AssistantMessage from "./components/AssistantMessage";
 import UserMessage from "./components/UserMessage";
+import Icon from "@mdi/react";
+import { mdiSendOutline } from "@mdi/js";
+import ResizableTextarea from "./components/ResizableTextarea";
+import { useState } from "react";
 
 function App() {
+  const [input, setInput] = useState("");
+
   const messages = [
     { role: "user", content: "Isso é uma mensagem" },
     {
@@ -33,13 +39,10 @@ function App() {
       </div>
 
       <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex items-center w-[700px] px-4">
-        <input
-          type="text"
-          placeholder="Type your message here"
-          className="flex-grow h-[50px] px-4 rounded-l-md bg-secondary text-primary outline-none"
-        />
+        <ResizableTextarea value={input} onChange={setInput} />
+
         <button className="h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2">
-          🔍
+          <Icon path={mdiSendOutline} size={1} />
         </button>
       </div>
     </div>
