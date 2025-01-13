@@ -98,14 +98,19 @@ function App() {
         })}
       </div>
 
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex items-center w-[700px] px-4">
-        <ResizableTextarea value={input} onChange={setInput} />
-        <button
-          className="h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2"
-          onClick={handleSendMessageAndVideo}
-          disabled={loading}>
-          <Icon path={mdiSendOutline} size={1} />
-        </button>
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[700px] px-4">
+        <div className="flex items-center">
+          <ResizableTextarea value={input} onChange={setInput} />
+          <button
+            className="h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2"
+            onClick={handleSendMessageAndVideo}
+            disabled={loading}>
+            <Icon path={mdiSendOutline} size={1} />
+          </button>
+        </div>
+        <p className="text-center text-gray-300 pt-2">
+          Youtube Ideas - Ricardo Castanho
+        </p>
       </div>
     </div>
   );
