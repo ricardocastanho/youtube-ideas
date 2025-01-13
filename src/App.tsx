@@ -1,7 +1,7 @@
 import AssistantMessage from "./components/AssistantMessage";
 import UserMessage from "./components/UserMessage";
 import Icon from "@mdi/react";
-import { mdiSendOutline } from "@mdi/js";
+import { mdiContentCopy, mdiSendOutline } from "@mdi/js";
 import ResizableTextarea from "./components/ResizableTextarea";
 import { useState } from "react";
 import { extractYouTubeURL } from "./utils/utils";
@@ -82,8 +82,22 @@ function App() {
         {messages.map((message, i) => {
           if (message.role === MessageRole.assistant) {
             return (
-              <div className="w-[700px] items-start text-start pb-12" key={i}>
+              <div
+                className="w-[700px] flex flex-col items-start text-start pb-12"
+                key={i}>
                 <AssistantMessage content={message.content} />
+                <div className="relative group">
+                  <button
+                    onClick={() =>
+                      navigator.clipboard.writeText(message.content)
+                    }
+                    className="p-2 bg-transparent rounded hover:bg-secondary text-sm text-white">
+                    <Icon path={mdiContentCopy} size={0.8} />
+                  </button>
+                  <span className="absolute bottom-full mb-1 px-2 py-1 text-xs text-white bg-secondary rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                    Copiar
+                  </span>
+                </div>
               </div>
             );
           }
