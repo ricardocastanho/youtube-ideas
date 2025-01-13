@@ -78,12 +78,12 @@ function App() {
 
   return (
     <div className="bg-background text-primary h-screen overflow-auto">
-      <div className="fixed top-0 max-h-[90%] w-full flex flex-col items-center p-4 pb-[50px] overflow-auto">
+      <div className="fixed top-0 max-h-[90%] w-full flex flex-col items-center p-8 pb-[50px] overflow-auto">
         {messages.map((message, i) => {
           if (message.role === MessageRole.assistant) {
             return (
               <div
-                className="w-[700px] flex flex-col items-start text-start pb-12"
+                className="flex flex-col items-start text-start pb-12 w-full lg:1/2 max-w-2xl"
                 key={i}>
                 <AssistantMessage content={message.content} />
                 <div className="relative group">
@@ -103,16 +103,16 @@ function App() {
           }
 
           return (
-            <div className="w-[700px] items-start text-start pb-12" key={i}>
-              <div className="w-full flex flex-col items-end">
-                <UserMessage content={message.content} />
-              </div>
+            <div
+              className="w-full flex items-end text-start pb-12 lg:1/2 max-w-2xl"
+              key={i}>
+              <UserMessage content={message.content} />
             </div>
           );
         })}
       </div>
 
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[700px] px-4">
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-full lg:w-4/5 max-w-3xl px-8">
         <div className="flex items-center">
           <ResizableTextarea value={input} onChange={setInput} />
           <button
@@ -122,6 +122,7 @@ function App() {
             <Icon path={mdiSendOutline} size={1} />
           </button>
         </div>
+
         <p className="text-center text-gray-300 pt-2">
           Youtube Ideas - Ricardo Castanho
         </p>

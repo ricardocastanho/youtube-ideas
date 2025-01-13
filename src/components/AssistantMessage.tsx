@@ -33,7 +33,7 @@ const AssistantMessage: React.FC<AssistantMessageProps> = ({
   }, [currentText, currentIndex]);
 
   return (
-    <div className="prose prose-invert max-w-none">
+    <div className="prose prose-invert">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentText}</ReactMarkdown>
       <div ref={messagesEndRef} />
     </div>
