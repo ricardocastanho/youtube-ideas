@@ -47,7 +47,13 @@ function Home() {
     const title = searchParams.get("title");
     const url = searchParams.get("url");
 
-    console.log({ text, title, url });
+    let newInput = [text, title, url]
+      .filter(Boolean) // Remove valores falsy (null, undefined, "", etc.)
+      .join("\n");
+
+    if (newInput) {
+      setInput(newInput);
+    }
   }, [searchParams]);
 
   const handleUserScroll = () => {
