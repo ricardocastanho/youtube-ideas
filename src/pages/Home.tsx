@@ -35,7 +35,7 @@ function Home() {
   const [searchParams] = useSearchParams();
 
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([initialMessage]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,16 +43,17 @@ function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const text = searchParams.get("text");
     const title = searchParams.get("title");
+    const text = searchParams.get("text");
     const url = searchParams.get("url");
 
-    let newInput = [text, title, url]
-      .filter(Boolean) // Remove valores falsy (null, undefined, "", etc.)
-      .join("\n");
+    let newInput = [title, text, url].filter(Boolean).join("\n");
 
     if (newInput) {
       setInput(newInput);
+      handleSendMessage(newInput);
+    } else {
+      setMessages([initialMessage]);
     }
   }, [searchParams]);
 
@@ -81,12 +82,12 @@ function Home() {
     setIsMenuOpen((prevState) => !prevState);
   };
 
-  const handleSendMessage = async () => {
-    if (!input.trim()) return;
+  const handleSendMessage = async (content: string) => {
+    if (!content.trim()) return;
 
     const newMessages = [
       ...messages,
-      { role: MessageRole.user, content: input },
+      { role: MessageRole.user, content: content },
     ];
     setMessages(newMessages);
     setInput("");
@@ -96,7 +97,7 @@ function Home() {
       messages: newMessages,
     };
 
-    const videoUrl = extractYouTubeURL(input);
+    const videoUrl = extractYouTubeURL(content);
     if (videoUrl) {
       body.video_url = videoUrl;
     }
@@ -188,7 +189,7 @@ function Home() {
               className={`h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2 ${
                 loading ? "cursor-not-allowed" : ""
               }`}
-              onClick={handleSendMessage}
+              onClick={() => handleSendMessage(input)}
               disabled={loading}>
               {loading ? (
                 <Icon path={mdiLoading} size={1} className="animate-spin" />
