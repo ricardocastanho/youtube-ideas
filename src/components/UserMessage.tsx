@@ -21,7 +21,9 @@ const UserMessage: React.FC<UserMessageProps> = ({ content }) => {
   return (
     <div>
       <div className="bg-secondary rounded-full p-4 px-12">
-        <p className="text-white">{message}</p>
+        {message.split("\n").map((word) => (
+          <p className="text-white">{word}</p>
+        ))}
       </div>
       <div ref={messagesEndRef} />
     </div>
