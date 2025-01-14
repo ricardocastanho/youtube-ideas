@@ -3,9 +3,10 @@ import UserMessage from "../components/UserMessage";
 import Icon from "@mdi/react";
 import { mdiContentCopy, mdiLoading, mdiSendOutline } from "@mdi/js";
 import ResizableTextarea from "../components/ResizableTextarea";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { extractYouTubeURL } from "../utils/utils";
 import NavigationDrawer from "../components/NavigationDrawer";
+import { useSearchParams } from "react-router-dom";
 
 const MessageRole = {
   user: "user",
@@ -31,6 +32,8 @@ const initialMessage: Message = {
 };
 
 function Home() {
+  const [searchParams] = useSearchParams();
+
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [loading, setLoading] = useState(false);
@@ -38,6 +41,14 @@ function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const text = searchParams.get("text");
+    const title = searchParams.get("title");
+    const url = searchParams.get("url");
+
+    console.log({ text, title, url });
+  }, [searchParams]);
 
   const handleUserScroll = () => {
     const scrollTop = containerRef.current?.scrollTop || 0;
