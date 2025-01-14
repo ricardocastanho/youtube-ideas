@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface ResizableTextareaProps {
   value: string;
@@ -23,12 +23,18 @@ const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
     handleInput();
   };
 
+  useEffect(() => {
+    if (!value && textareaRef && textareaRef.current) {
+      textareaRef.current.style.height = "56px";
+    }
+  }, [value]);
+
   return (
     <textarea
       ref={textareaRef}
       value={value}
       placeholder="Type your message here"
-      className="flex-grow min-h-[50px] max-h-[200px] p-4 rounded-l-md bg-secondary text-primary outline-none overflow-hidden resize-none"
+      className="flex-grow min-h-14 max-h-28 lg:max-h-52 p-4 rounded-l-md bg-secondary text-primary outline-none overflow-hidden resize-none"
       onInput={handleInput}
       onChange={handleChange}
     />

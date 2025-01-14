@@ -1,12 +1,12 @@
 import AssistantMessage from "../components/AssistantMessage";
 import UserMessage from "../components/UserMessage";
 import Icon from "@mdi/react";
-import { mdiContentCopy, mdiLoading, mdiSendOutline } from "@mdi/js";
-import ResizableTextarea from "../components/ResizableTextarea";
+import { mdiContentCopy } from "@mdi/js";
 import { useEffect, useRef, useState } from "react";
 import { extractYouTubeURL } from "../utils/utils";
 import NavigationDrawer from "../components/NavigationDrawer";
 import { useSearchParams } from "react-router-dom";
+import UserMessageInput from "../components/UserMessageInput";
 
 const MessageRole = {
   user: "user",
@@ -183,21 +183,12 @@ function Home() {
         </div>
 
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-full lg:w-4/5 max-w-3xl px-8">
-          <div className="flex items-center">
-            <ResizableTextarea value={input} onChange={setInput} />
-            <button
-              className={`h-[50px] w-[50px] bg-primary text-background rounded-full flex items-center justify-center p-2 ml-2 ${
-                loading ? "cursor-not-allowed" : ""
-              }`}
-              onClick={() => handleSendMessage(input)}
-              disabled={loading}>
-              {loading ? (
-                <Icon path={mdiLoading} size={1} className="animate-spin" />
-              ) : (
-                <Icon path={mdiSendOutline} size={1} />
-              )}
-            </button>
-          </div>
+          <UserMessageInput
+            input={input}
+            setInput={setInput}
+            isLoading={loading}
+            onSendMessage={handleSendMessage}
+          />
         </div>
       </div>
     </div>
