@@ -22,8 +22,8 @@ const UserMessage: React.FC<UserMessageProps> = ({ content }) => {
     <div>
       <div
         className={`bg-secondary p-4 px-12 ${
-          message.split("\n").filter(Boolean).length > 1 || message.length > 30
-            ? "rouded-3xl"
+          message.split("\n").filter(Boolean).length > 1 || message.length > 50
+            ? "rouded-3xl lg:rounded-full"
             : "rounded-full"
         }`}>
         {message.split("\n").map((word, i) => (
